@@ -14,31 +14,35 @@ const choiceEvenOrOdds = prompt('Scegli pari o dispari');
 // - definizione costante per input numero tra 1 e 5 //myNumber
 const myNumber = Number(prompt('Scegli un numero da 1 a 5'));
 
+const maxNum = 5;
 let cpuChoice = '';
 let result = '';
+let cpuNumber = 0;
 
 // PROGRAM
-// - definizione costante per numero casuale tra 1 e 5 //cpuNumber
-const cpuNumber = genCpuNumber();
-console.log(cpuNumber);
 
-// - calcolo la somma dei due valori
-const numberSum = myNumber + cpuNumber;
-console.log(numberSum);
+if (checkChoice(choiceEvenOrOdds) && checkNumber(myNumber, maxNum)) {
+    // - definizione costante per numero casuale tra 1 e 5 //cpuNumber
+    cpuNumber = genCpuNumber(maxNum);
 
-// - stabilisco la scelta del computer solo per la visualizzazione
-if (choiceEvenOrOdds == 'pari') {
-    cpuChoice = 'dispari';
+    // - calcolo la somma dei due valori
+    const numberSum = myNumber + cpuNumber;
+
+    // - stabilisco la scelta del computer solo per la visualizzazione
+    if (choiceEvenOrOdds == 'pari') {
+        cpuChoice = 'dispari';
+    } else {
+        cpuChoice = 'pari';
+    }
+
+    if (checkWin(numberSum, choiceEvenOrOdds)) {
+        result = 'Hai vinto!';
+    } else {
+        result = 'Hai perso!';
+    }
 } else {
-    cpuChoice = 'pari';
+    result = 'La scelta è errata'
 }
-
-if (checkWin(numberSum, choiceEvenOrOdds)) {
-    result = 'Hai vinto!';
-} else {
-    result = 'Hai perso!';
-}
-
 
 // OUTPUT
 //ME
@@ -52,11 +56,30 @@ document.getElementById('cpunumber').innerHTML = cpuNumber;
 // - visualizzo il vincitore
 document.getElementById('result').innerHTML = result;
 
+
+//-----------
 // FUNCTIONS
+//-----------
+
+function checkChoice(choice) {
+    if (choice === 'pari' || choice === 'dispari') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkNumber(userNum, maxNumber) {
+    if (userNum < 1 || userNum > maxNumber) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 //Generate CPU Random Number
-function genCpuNumber() {
-    const randomNumber = Math.floor(Math.random() * 5) + 1;
+function genCpuNumber(maxNumber) {
+    const randomNumber = Math.floor(Math.random() * maxNumber) + 1;
     return randomNumber;
 }
 
